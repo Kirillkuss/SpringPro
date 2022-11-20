@@ -2,40 +2,47 @@ package com.example.test.services;
 
 import com.example.test.entity.Animal;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import java.util.*;
 
 @Service
 public class AnimalService {
 
-    List<Animal> animals = new LinkedList<>(Arrays.asList(new Animal( 1L, "Dog",BigDecimal.valueOf(324), 34 ),
-                                                          new Animal( 2L, "Cat", new BigDecimal(234), 45) ));
+    @PersistenceContext
+    private EntityManager em;
 
     public List<Animal> getAll() throws Exception{
-        return animals;
+        return em.createQuery(" select e from Animal e").getResultList();
     }
 
     public Animal getById( Long id ) throws Exception{
-        return animals.stream().filter(s -> Objects.equals( s.getId(), id)).findFirst().orElse( null );
+        return ( Animal ) em.createQuery("select e from Animal e where e.id = ?1")
+                            .setParameter(1 , id )
+                            .getResultList()
+                            .stream().findFirst().orElse( null );
     }
 
-    public boolean delAnimal( Long id) throws Exception{
-        return animals.removeIf( s-> Objects.equals( s.getId(), id));
+    public void delAnimal( Long id) throws Exception{
+        Animal animal = em.find( Animal.class, id );
+        em.remove( animal );
     }
 
-    public boolean addAnimal(Animal animal) throws Exception{
-        return animals.add( animal );
+    @Transactional
+    public void addAnimal(Animal animal) throws Exception{
+        em.merge( animal );
     }
 
-    public boolean modyAnimal( Animal animal){
-        Optional<Animal> an = animals.stream().filter( s ->Objects.equals( s.getId(), animal.getId() )).findAny();
-        if( an.isPresent() ){
-            an.get().setName( animal.getName() );
-            an.get().setAmount( animal.getAmount() );
-            an.get().setCount( animal.getCount() );
-        }
-        return an.isPresent();
+    @Transactional
+    public void modyAnimal( Animal animal){
+        Animal response = em.find( Animal.class, animal.getId() );
+        response.setName( animal.getName() );
+        response.setAmount( animal.getAmount() );
+        response.setCount( animal.getCount() );
+        em.merge( response );
     }
 
 }

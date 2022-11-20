@@ -4,7 +4,6 @@ import com.example.test.entity.Animal;
 import com.example.test.services.AnimalService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,8 +48,8 @@ public class AnimalController {
             @ApiResponse( responseCode = "400", description = "Bad request",content = { @Content(mediaType = "application/json") }),
             @ApiResponse( responseCode = "500", description = "System malfunction",content = { @Content(mediaType = "application/json") })
     })
-    public boolean delete( Long id ) throws Exception{
-        return service.delAnimal( id );
+    public void delete( Long id ) throws Exception{
+         service.delAnimal( id );
     }
 
     @RequestMapping ( method = RequestMethod.PUT , value = "/animal/add")
@@ -60,8 +59,8 @@ public class AnimalController {
             @ApiResponse( responseCode = "400", description = "Bad request",content = { @Content(mediaType = "application/json") }),
             @ApiResponse( responseCode = "500", description = "System malfunction",content = { @Content(mediaType = "application/json") })
     })
-    public boolean addAnimal( Animal animal ) throws Exception{
-        return service.addAnimal( animal );
+    public void addAnimal( Animal animal ) throws Exception{
+        service.addAnimal( animal );
     }
 
     @RequestMapping( method = RequestMethod.POST, value = "/animal/change")
@@ -71,7 +70,7 @@ public class AnimalController {
             @ApiResponse( responseCode = "400", description = "Bad request",content = { @Content(mediaType = "application/json") }),
             @ApiResponse( responseCode = "500", description = "System malfunction",content = { @Content(mediaType = "application/json") })
     })
-    public boolean modyAnimal( Animal animal ) throws Exception{
-        return service.modyAnimal( animal );
+    public void modyAnimal( Animal animal ) throws Exception{
+         service.modyAnimal( animal );
     }
 }

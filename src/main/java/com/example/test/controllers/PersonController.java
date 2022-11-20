@@ -28,7 +28,7 @@ public class PersonController {
             @ApiResponse( responseCode = "500", description = "System malfunction",content = { @Content(mediaType = "application/json") })
     })
     public List<Person> getAllPerson() {
-        return personService.findAll();
+        return personService.findAllTwo();
     }
     @RequestMapping( method = RequestMethod.GET, value = "/person/{id}")
     @Operation( description = "Поиск человека по ИД", summary = "Поиск человека по ИД")
