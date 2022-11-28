@@ -1,5 +1,6 @@
 package com.example.test.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -22,32 +23,38 @@ public class Person {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column( name = "id")
-    private Long id;
+    @Schema( name = "id",
+             description = "ИД пользователя",
+             example = "1",
+             required = true )       private Long id;
+
     @NotNull
-    @Column( name = "name")
-    private String name;
+    @Column( name        = "name")
+    @Schema( name        = "name",
+             description = "Имя",
+             example     = "Кирилл",
+             required    = true )    private String name;
+
     @Column( name = "login")
-    private String login;
+    @Schema( name        = "login",
+             description = "Логин",
+             example     = "Mouse711",
+             required    = true )    private String login;
+
     @Size( max = 13 )
     @Column( name = "phone" )
-    private String phone;
+    @Schema( name        = "phone",
+            description = "Номер телефона",
+            example     = "+375297844532",
+            required    = true )      private String phone;
+
     @Column( name = "wallet")
-    private BigDecimal wallet;
+    @Schema( name        = "wallet",
+            description = "Кошелек",
+            example     = "50000",
+            required    = true )      private BigDecimal wallet;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-    @JoinTable(name = "person_animal", joinColumns = @JoinColumn(name = "idPerson"),
-            inverseJoinColumns = @JoinColumn(name = "idAnimal"))
-    private List<Animal> animals;
-
-    public Person(Long id, String name, String login, String phone, BigDecimal wallet, List<Animal> animals) {
-        this.id = id;
-        this.name = name;
-        this.login = login;
-        this.phone = phone;
-        this.wallet = wallet;
-        this.animals = animals;
-    }
-
+    
     public Person(Long id, String name, String login, String phone, BigDecimal wallet) {
         this.id = id;
         this.name = name;

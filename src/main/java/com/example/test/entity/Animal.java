@@ -1,5 +1,6 @@
 package com.example.test.entity;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -20,25 +21,28 @@ public class Animal implements Serializable {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column( name = "id")
-    private Long id;
+    @Schema( name        = "id",
+            description = "ИД питомца",
+            example     = "1",
+            required    = true )   private Long id;
+
     @Column( name = "name")
-    private String name;
+    @Schema( name        = "name",
+            description = "Название питомца",
+            example     = "Cat",
+            required    = true )    private String name;
+
     @Column( name = "amount")
-    private BigDecimal amount;
+    @Schema( name        = "amount",
+            description = "Стоимость",
+            example     = "400",
+            required    = true )    private BigDecimal amount;
+
     @Column( name = "count")
-    private Integer count;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
-    private Person person;
-
-    public Animal(Long id, String name, BigDecimal amount, Integer count, Person person) {
-        this.id = id;
-        this.name = name;
-        this.amount = amount;
-        this.count = count;
-        this.person = person;
-    }
+    @Schema( name        = "count",
+            description = "Количество",
+            example     = "30",
+            required    = true )    private Integer count;
 
     public Animal(Long id, String name, BigDecimal amount, Integer count) {
         this.id = id;

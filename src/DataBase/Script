@@ -1,32 +1,18 @@
-CREATE TABLE Animal(
-	id serial PRIMARY KEY,
-	name VARCHAR( 20 ) NOT NULL,
-	amount int8 NOT NULL,
-	count int,
-	personID,
-	FOREIGN KEY ( personID ) REFERENCES Person ( Id ) ON DELETE CASCADE
-)
+	CREATE TABLE Animal(
+		id serial PRIMARY KEY,
+		name VARCHAR( 20 ) NOT NULL,
+		amount int8 NOT NULL,
+		count int
+	);
 
 CREATE TABLE Person(
 	id serial PRIMARY KEY,
 	name VARCHAR( 20 ) NOT NULL,
 	login VARCHAR( 20 ) NOT NULL,
 	phone VARCHAR( 13 ) NOT NULL,
-	wallet int8 NOT NULL,
-	animalID INTEGER,
-	FOREIGN KEY ( animalID ) REFERENCES Animal ( Id ) ON DELETE SET NULL
-)
-
-CREATE TABLE Person(
-	id serial PRIMARY KEY,
-	name VARCHAR( 20 ) NOT NULL,
-	login VARCHAR( 20 ) NOT NULL,
-	phone VARCHAR( 13 ) NOT NULL,
-	wallet int8 NOT NULL,
-	AnimalId INTEGER REFERENCES Animal (Id) ON DELETE SET NULL
-)
-
+	wallet int8 NOT NULL
+);
 CREATE TABLE person_animal(
-	idPerson INTEGER references person( id ),
-	idAnimal INTEGER references animal( id )
+	idAnimal INTEGER references animal( id ),
+	idPerson INTEGER references person( id ) 
 )
