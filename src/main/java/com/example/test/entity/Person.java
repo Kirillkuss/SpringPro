@@ -1,10 +1,7 @@
 package com.example.test.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -16,6 +13,7 @@ import java.util.List;
 @Table(name = "Person")
 @Getter
 @Setter
+@EqualsAndHashCode
 @ToString
 @RequiredArgsConstructor
 public class Person {

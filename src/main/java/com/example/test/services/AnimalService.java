@@ -26,6 +26,7 @@ public class AnimalService {
                             .stream().findFirst().orElse( null );
     }
 
+    @Transactional
     public void delAnimal( Long id) throws Exception{
         Animal animal = em.find( Animal.class, id );
         em.remove( animal );
@@ -43,6 +44,13 @@ public class AnimalService {
         response.setAmount( animal.getAmount() );
         response.setCount( animal.getCount() );
         em.merge( response );
+    }
+
+    public Integer getCount() throws Exception{
+        Long response = (Long) em.createQuery( "select count ( t.id ) from Animal t")
+                                 .getResultList()
+                                 .stream().findFirst().orElse(0L);
+        return response.intValue();
     }
 
 }
