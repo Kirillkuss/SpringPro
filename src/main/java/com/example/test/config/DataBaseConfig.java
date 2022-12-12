@@ -1,6 +1,8 @@
 package com.example.test.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
+import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -39,5 +41,13 @@ public class DataBaseConfig {
         factory.setDataSource(dataSource);
         factory.afterPropertiesSet();
         return factory.getObject();
+    }
+    /**
+     * http://127.0.0.1:8080/actuator/httptrace
+     * @return
+     */
+    @Bean
+    public HttpTraceRepository httpTraceRepository() {
+        return new InMemoryHttpTraceRepository();
     }
 }
