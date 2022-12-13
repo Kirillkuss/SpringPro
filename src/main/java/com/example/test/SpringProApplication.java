@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-//http://127.0.0.1:8090/swagger-ui/index.html#/
+//http://127.0.0.1:8080/swagger-ui/index.html#/
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(title = "API for Animal and Person CRUD", version = "3.0", description = "CRUD"))
 @SecurityScheme(name = "User name", scheme = "basic", type = SecuritySchemeType.HTTP, in = SecuritySchemeIn.HEADER)
