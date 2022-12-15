@@ -1,13 +1,13 @@
-version: '3.3'
+version: '3.4'
 
 volumes:
   pg_project:
 
 services:
   app:
-    image: 'docker-spring-boot-postgres:latest'
+    image: app
     ports:
-      - "8080:8080"
+      - "8081:8080"
     build:
       context: .
     container_name: app
