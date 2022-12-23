@@ -1,42 +1,91 @@
 package com.example.test.security;
 
+import com.nimbusds.jose.jwk.JWK;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.Customizer;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
+import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 
 @EnableWebSecurity
+@Configuration
 public class SecurityConfiguration  {
+
+    @Value("${jwt.public.key}")
+    RSAPublicKey publicKey;
+
+    @Value("${jwt.private.key}")
+    RSAPrivateKey privateKey;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((authz) -> authz
-                        .anyRequest().authenticated()
-                ).csrf().disable()
-                .httpBasic(Customizer.withDefaults());
-        return http.build();
+        return http
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .antMatchers("/auth/**", "/swagger-ui-custom.html", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/webjars/**",
+                                "/swagger-ui/index.html", "/api-docs/**","/api/**")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
+                .cors().disable()
+                .csrf().disable()
+                .formLogin().disable()
+                .httpBasic().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+                        .and())
+                .build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+    UserDetailsService allUsers() {
+        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+        manager
+                .createUser(User.builder()
+                        .passwordEncoder(password -> password)
+                        .username("admin")
+                        .password("admin")
+                        .authorities("USER")
+                        .roles("USER").build());
+        manager
+                .createUser(User.builder()
+                        .passwordEncoder(password -> password)
+                        .username("test")
+                        .password("test")
+                        .authorities("USER")
+                        .roles("USER").build());
+        return manager;
     }
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsService(PasswordEncoder encoder ){
-        List<UserDetails> userList = new ArrayList<>();
-        userList.add( new User( "admin", encoder.encode( "admin"), Arrays.asList( new SimpleGrantedAuthority( "ROLE_USER" ))));
-        userList.add( new User( "woody", encoder.encode("password"), Arrays.asList( new SimpleGrantedAuthority( "ROLE_USER" ))));
-        return new InMemoryUserDetailsManager( userList );
+    JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withPublicKey(this.publicKey).build();
+    }
+
+    @Bean
+    JwtEncoder jwtEncoder() {
+        JWK jwk = new RSAKey.Builder(this.publicKey).privateKey(this.privateKey).build();
+        return new NimbusJwtEncoder(new ImmutableJWKSet<>(new JWKSet(jwk)));
     }
 }

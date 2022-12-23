@@ -13,7 +13,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 //http://127.0.0.1:8080/swagger-ui/index.html#/
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(title = "API for Animal and Person CRUD", version = "3.0", description = "CRUD"))
-@SecurityScheme(name = "User name", scheme = "basic", type = SecuritySchemeType.HTTP, in = SecuritySchemeIn.HEADER)
+@SecurityScheme(
+        name = "Bearer Authentication",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        scheme = "bearer"
+)
 public class SpringProApplication {
 
     public static void main(String[] args) {

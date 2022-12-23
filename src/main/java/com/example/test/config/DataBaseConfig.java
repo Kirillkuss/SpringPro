@@ -47,7 +47,7 @@ public class DataBaseConfig {
      * @return
      */
     @Bean
-    public HttpTraceRepository httpTraceRepository() {
+    public HttpTraceRepository httpTraceRepository(){
         return new InMemoryHttpTraceRepository();
     }
 }

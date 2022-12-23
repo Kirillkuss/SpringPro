@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.test.services.PersonService;
 
 @RestController
-@SecurityRequirement(name = "User name")
+@SecurityRequirement(name = "Bearer Authentication")
 public class PersonController {
 
     @Autowired
