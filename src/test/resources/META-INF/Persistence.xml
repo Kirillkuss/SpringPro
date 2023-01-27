@@ -20,5 +20,6 @@
             <property name="hibernate.use_sql_comments" value="true"/>
             <property name="hibernate.proc.param_null_passing" value="true"/>
         </properties>
+        
     </persistence-unit>
 </persistence>
