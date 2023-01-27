@@ -1,4 +1,4 @@
-package com.example.test.security;
+package com.example.test.config.security;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;

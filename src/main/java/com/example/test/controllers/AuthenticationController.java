@@ -1,8 +1,6 @@
 package com.example.test.controllers;
 
-import com.example.test.response.BaseResponse;
-import com.example.test.security.User;
-import io.swagger.v3.oas.annotations.Operation;
+import com.example.test.config.security.User;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

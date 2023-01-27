@@ -3,7 +3,6 @@ package com.example.test.services;
 import com.example.test.entity.Animal;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -13,7 +12,7 @@ import java.util.*;
 public class AnimalService {
 
     @PersistenceContext
-    private EntityManager em;
+    EntityManager em;
 
     public List<Animal> getAll() throws Exception{
         return em.createQuery(" select e from Animal e").getResultList();

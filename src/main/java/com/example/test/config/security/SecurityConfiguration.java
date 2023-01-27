@@ -1,4 +1,4 @@
-package com.example.test.security;
+package com.example.test.config.security;
 
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
