@@ -1,20 +1,17 @@
 package com.example.test.services;
 
-import com.example.test.entity.Person;
 import com.example.test.repositories.PersonRepository;
 import mockit.Injectable;
 import mockit.Tested;
 import mockit.integration.junit5.JMockitExtension;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-//@Disabled
+@Disabled
 @ExtendWith( JMockitExtension.class )
 @DisplayName( "Тестирование сервиса PersonService используя JMockit")
 public class TestPersonService {

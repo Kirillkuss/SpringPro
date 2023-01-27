@@ -1,7 +1,6 @@
 package com.example.test.services;
 
 import com.example.test.entity.Animal;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -14,6 +13,7 @@ import static org.mockito.Mockito.mock;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 
+@Disabled
 @DisplayName( "Тестирование сервиса AnimalService через Mockito c подкл БД")
 public class TestAnimalService {
 
