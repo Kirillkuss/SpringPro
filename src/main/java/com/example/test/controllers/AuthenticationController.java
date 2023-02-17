@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @RequestMapping("/auth")
 @RestController
-@Tag(name = "Authentication",description = "Получение токена:")
+@Tag(name = "JWT",description = "Получение токена:")
 public class AuthenticationController {
 
     private final UserDetailsService userDetailsService;
@@ -57,7 +57,7 @@ public class AuthenticationController {
 
     private String generateToken(UserDetails userDetails) {
         Instant now = Instant.now();
-        long expiry = 300L; // five minutes
+        long expiry = 600L; // five minutes
         String scope = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));

@@ -1,0 +1,17 @@
+com\example\test\response\BaseResponse.class
+com\example\test\entity\Animal.class
+com\example\test\repositories\AnimalRepository.class
+com\example\test\repositories\UserRepository.class
+com\example\test\services\UserDetailsService.class
+com\example\test\config\security\SecurityConfiguration.class
+com\example\test\config\DataBaseConfig.class
+com\example\test\repositories\PersonRepository.class
+com\example\test\services\PersonService.class
+com\example\test\entity\Person.class
+com\example\test\SpringProApplication.class
+com\example\test\config\kafka\KafkaTopicConfig.class
+com\example\test\controllers\AnimalController.class
+com\example\test\services\AnimalService.class
+com\example\test\controllers\AuthenticationController.class
+com\example\test\config\security\User.class
+com\example\test\controllers\PersonController.class

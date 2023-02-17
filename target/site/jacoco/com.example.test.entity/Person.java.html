@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ru"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Person.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">SpringPro</a> &gt; <a href="index.source.html" class="el_package">com.example.test.entity</a> &gt; <span class="el_source">Person.java</span></div><h1>Person.java</h1><pre class="source lang-java linenums">package com.example.test.entity;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.math.BigDecimal;
+import java.util.List;
+
+@Entity
+@Table(name = &quot;Person&quot;)
+@Getter
+<span class="nc" id="L15">@Setter</span>
+<span class="nc bnc" id="L16" title="All 46 branches missed.">@EqualsAndHashCode</span>
+<span class="nc" id="L17">@ToString</span>
+<span class="fc" id="L18">@RequiredArgsConstructor</span>
+public class Person {
+
+    @Id
+    @GeneratedValue( strategy = GenerationType.IDENTITY)
+    @Column( name = &quot;id&quot;)
+    @Schema( name = &quot;id&quot;,
+             description = &quot;ИД пользователя&quot;,
+             example = &quot;1&quot;,
+<span class="nc" id="L27">             required = true )       private Long id;</span>
+
+    @NotNull
+    @Column( name        = &quot;name&quot;)
+    @Schema( name        = &quot;name&quot;,
+             description = &quot;Имя&quot;,
+             example     = &quot;Кирилл&quot;,
+<span class="nc" id="L34">             required    = true )    private String name;</span>
+
+    @Column( name = &quot;login&quot;)
+    @Schema( name        = &quot;login&quot;,
+             description = &quot;Логин&quot;,
+             example     = &quot;Mouse711&quot;,
+<span class="nc" id="L40">             required    = true )    private String login;</span>
+
+    @Size( max = 13 )
+    @Column( name = &quot;phone&quot; )
+    @Schema( name        = &quot;phone&quot;,
+            description = &quot;Номер телефона&quot;,
+            example     = &quot;+375297844532&quot;,
+<span class="nc" id="L47">            required    = true )      private String phone;</span>
+
+    @Column( name = &quot;wallet&quot;)
+    @Schema( name        = &quot;wallet&quot;,
+            description = &quot;Кошелек&quot;,
+            example     = &quot;50000&quot;,
+<span class="nc" id="L53">            required    = true )      private BigDecimal wallet;</span>
+
+    
+<span class="nc" id="L56">    public Person(Long id, String name, String login, String phone, BigDecimal wallet) {</span>
+<span class="nc" id="L57">        this.id = id;</span>
+<span class="nc" id="L58">        this.name = name;</span>
+<span class="nc" id="L59">        this.login = login;</span>
+<span class="nc" id="L60">        this.phone = phone;</span>
+<span class="nc" id="L61">        this.wallet = wallet;</span>
+<span class="nc" id="L62">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

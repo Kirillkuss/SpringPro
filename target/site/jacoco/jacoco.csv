@@ -1,0 +1,14 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+SpringPro,com.example.test.response,BaseResponse,166,0,26,0,14,0,27,0,14,0
+SpringPro,com.example.test.services,AnimalService,0,83,0,0,0,21,0,7,0,7
+SpringPro,com.example.test.services,PersonService,25,28,2,0,6,6,3,5,2,5
+SpringPro,com.example.test,SpringProApplication,11,0,0,0,4,0,2,0,2,0
+SpringPro,com.example.test.controllers,PersonController,73,0,0,0,23,0,6,0,6,0
+SpringPro,com.example.test.controllers,AnimalController,91,0,0,0,28,0,7,0,7,0
+SpringPro,com.example.test.controllers,AuthenticationController,88,0,2,0,24,0,4,0,3,0
+SpringPro,com.example.test.config.security,SecurityConfiguration,173,0,0,0,38,0,9,0,9,0
+SpringPro,com.example.test.config.security,User,204,0,38,0,12,0,32,0,13,0
+SpringPro,com.example.test.entity,Animal,174,36,37,1,7,7,23,10,4,10
+SpringPro,com.example.test.entity,Person,250,3,46,0,15,1,38,1,15,1
+SpringPro,com.example.test.config,DataBaseConfig,67,0,0,0,16,0,4,0,4,0
+SpringPro,com.example.test.config.kafka,KafkaTopicConfig,25,0,0,0,5,0,3,0,3,0
