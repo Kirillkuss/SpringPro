@@ -12,7 +12,6 @@ import javax.persistence.Persistence;
 import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 
-@Disabled
 @ExtendWith( JMockitExtension.class )
 @DisplayName( "Тестирование сервиса AnimalService используя JMockit")
 public class AnimalServiceTest {

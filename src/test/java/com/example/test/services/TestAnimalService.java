@@ -13,7 +13,7 @@ import static org.mockito.Mockito.mock;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 
-@Disabled
+
 @DisplayName( "Тестирование сервиса AnimalService через Mockito c подкл БД")
 public class TestAnimalService {
 
