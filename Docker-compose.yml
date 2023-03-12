@@ -16,13 +16,13 @@ services:
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://pg_db:5432/postgres
       - SPRING_DATASOURCE_USERNAME=postgres
-      - SPRING_DATASOURCE_PASSWORD=admin
+      - SPRING_DATASOURCE_PASSWORD=1111
       - SPRING_JPA_HIBERNATE_DDL_AUTO=none
 
   pg_db:
     image: postgres
     environment:
-      - POSTGRES_PASSWORD=admin
+      - POSTGRES_PASSWORD=1111
       - POSTGRES_USER=postgres
       - POSTGRES_DB=postgres
     volumes:
