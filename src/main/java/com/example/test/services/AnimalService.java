@@ -1,41 +1,63 @@
 package com.example.test.services;
 
 import com.example.test.entity.Animal;
+import com.example.test.repositories.AnimalRepository;
+
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+import java.util.NoSuchElementException;
 
-import java.math.BigDecimal;
-import java.util.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
+@Slf4j
 @Service
 public class AnimalService {
 
-    List<Animal> animals = new LinkedList<>(Arrays.asList(new Animal( 1L, "Dog",BigDecimal.valueOf(324), 34 ),
-                                                          new Animal( 2L, "Cat", new BigDecimal(234), 45) ));
+    @PersistenceContext
+    EntityManager em;
+
+    @Autowired
+    private AnimalRepository animalRepository;
 
     public List<Animal> getAll() throws Exception{
-        return animals;
+        return em.createQuery(" select e from Animal e").getResultList();
     }
 
     public Animal getById( Long id ) throws Exception{
-        return animals.stream().filter(s -> Objects.equals( s.getId(), id)).findFirst().orElse( null );
+        return ( Animal ) em.createQuery("select e from Animal e where e.id = ?1")
+                            .setParameter(1 , id )
+                            .getResultList()
+                            .stream().findFirst().orElseThrow();
     }
 
-    public boolean delAnimal( Long id) throws Exception{
-        return animals.removeIf( s-> Objects.equals( s.getId(), id));
+    @Transactional
+    public void delAnimal( Long id) throws Exception{
+        Animal animal = animalRepository.findById( id ).orElseThrow( () ->new  NoSuchElementException("Питомца с такми ИД не существует")); 
+        em.remove( animal );
     }
 
-    public boolean addAnimal(Animal animal) throws Exception{
-        return animals.add( animal );
+    @Transactional
+    public void addAnimal(Animal animal) throws Exception{
+        if ( animalRepository.findById( animal.getId() ).isPresent()) throw new IllegalArgumentException( "Питомец с таким ИД уже существует, укажите другой");
+        em.merge( animal );
     }
 
-    public boolean modyAnimal( Animal animal){
-        Optional<Animal> an = animals.stream().filter( s ->Objects.equals( s.getId(), animal.getId() )).findAny();
-        if( an.isPresent() ){
-            an.get().setName( animal.getName() );
-            an.get().setAmount( animal.getAmount() );
-            an.get().setCount( animal.getCount() );
-        }
-        return an.isPresent();
+    @Transactional
+    public void modyAnimal( Animal animal) throws Exception{
+        if ( animalRepository.findById( animal.getId() ).isEmpty() ) throw new IllegalArgumentException( "Питомец с таким ИД не существует, укажите другой");
+        em.merge( animal );
+    }
+
+    public Integer getCount() throws Exception{
+        Long response = (Long) em.createQuery( "select count ( t.id ) from Animal t")
+                                 .getResultList()
+                                 .stream().findFirst().orElse(0L);
+        return response.intValue();
     }
 
 }

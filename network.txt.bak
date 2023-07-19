@@ -1,0 +1,79 @@
+Командная строка:
+
+1. docker pull kirillkus/app
+2. docker pull kirillkus/pg_db
+
+После заходим в Docker Desktop и создаем(запускаем) контейнеры в разделе Images нажимаем на Run:
+1.
+
+Containers create:
+ (Название контенера app )
+App: 
+
+Ports: 8081
+
+Enviroment:
+1.Variable							2.Value
+
+SPRING_DATASOURCE_PASSWORD 			admin
+SPRING_JPA_HIBERNATE_DDL_AUTO 		none
+SPRING_DATASOURCE_URL 				jdbc:postgresql://pg_db:5432/postgres
+SPRING_DATASOURCE_USERNAME 			postgres
+
+---------------------------------------------------------------------------
+ (Название контенера pg_db )
+pg_db:
+
+Ports: 5434
+
+Valumes:
+1.Host path					2.Container path
+/VAR/LIB/POSTGRESQL/DATA    /var/lib/docker/volumes/springpro_pg_project/_data
+
+Enviroment:
+1.Variable					2.Value
+
+POSTGRES_DB 				postgres
+POSTGRES_PASSWORD 			admin
+POSTGRES_USER 				postgres
+
+Снова переходим в командную строку и создаем network
+
+docker network create springpro
+
+(посмотреть, какие есть сети команда: docker network ls) 
+( подробная информация о сети: docker network inspect springpro ) 
+
+После чего необходимо добавить 2 контейнера, которые мы создали в эту сеть:
+1. docker network connect springpro app
+2. docker network connect springpro pg_db
+
+После этого необходимо перезагрузить контейнер app, это можно сделать в  Docker Desktop в разеделе Containers
+( после перезапуска контейнер должен подключаться к контейнеру pg_db )
+
+Необходимо подлючиться к бд и создать там таблицы: (выполнить скрипт) - проще всего в DBeaver
+
+host:0.0.0.0:5434
+bd:postgres
+login:postgres
+password: admin
+
+CREATE TABLE Animal(
+	id serial PRIMARY KEY,
+	name VARCHAR( 20 ) NOT NULL,
+	amount int8 NOT NULL,
+	count int
+);
+
+CREATE TABLE Person(
+	id serial PRIMARY KEY,
+	name VARCHAR( 20 ) NOT NULL,
+	login VARCHAR( 20 ) NOT NULL,
+	phone VARCHAR( 13 ) NOT NULL,
+	wallet int8 NOT NULL
+);
+
+После чего переходи в браузер по ссылке 
+http://127.0.0.1:8081/swagger-ui/index.html#/
+
+admin admin

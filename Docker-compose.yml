@@ -1,0 +1,31 @@
+version: '3.4'
+
+volumes:
+  pg_project:
+
+services:
+  app:
+    image: app
+    ports:
+      - "8081:8080"
+    build:
+      context: .
+    container_name: app
+    depends_on:
+      - pg_db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://pg_db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=1111
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=none
+
+  pg_db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=1111
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - pg_project:/var/lib/postgresql/data
+    ports:
+      - ${POSTGRES_PORT:-5434}:5432
