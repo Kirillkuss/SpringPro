@@ -9,6 +9,8 @@ import lombok.Setter;
 import lombok.ToString;
 import java.io.Serializable;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 @ToString
@@ -20,11 +22,15 @@ public class User implements Serializable {
 
     @Schema( name        = "username",
              description = "admin",
-             example     = "admin" )
+             example     = "admin",
+             required    = true )
+    @NotNull         
     private String username;
     @Schema( name        = "password",
              description = "admin",
-             example     = "admin" )
+             example     = "admin",
+             required    = true )
+    @NotNull 
     private String password;
     @Hidden
     private String role;

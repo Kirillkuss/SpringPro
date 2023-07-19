@@ -16,8 +16,9 @@ public class MyExceptionHandler  extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<BaseResponse> errorBaseResponse( Throwable ex ){
+        ex.printStackTrace();
         log.error( "Throwable >>> " + ex.getMessage());
-        return ResponseEntity.internalServerError().body( BaseResponse.error( HttpStatus.INTERNAL_SERVER_ERROR.value(), ex ));
+        return ResponseEntity.internalServerError().body( BaseResponse.error( 500, ex ));
     }
 
     @ExceptionHandler( NoSuchElementException.class )
@@ -37,7 +38,7 @@ public class MyExceptionHandler  extends ResponseEntityExceptionHandler {
     @ExceptionHandler( UsernameNotFoundException.class )
     public ResponseEntity errorBaseResponse( UsernameNotFoundException ex ){
         log.error( "UsernameNotFoundException >>> " +  ex.getMessage() );
-        return ResponseEntity.status( HttpStatus.BAD_REQUEST )
+        return ResponseEntity.status( HttpStatus.UNAUTHORIZED )
                              .body( new BaseResponse<>( 401, "Invalid username or password" ));
     }
     

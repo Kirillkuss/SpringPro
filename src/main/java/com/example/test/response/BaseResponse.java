@@ -1,8 +1,14 @@
 package com.example.test.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
@@ -10,12 +16,13 @@ import lombok.*;
 @ToString
 @AllArgsConstructor
 public class BaseResponse<T> {
-    @Schema (description = "Код сообщения", name = "code",  example = "999")
+    @Schema (description = "Код сообщения", name = "code",  example = "200")
     private int code;
-    @Schema (description = "Сообщение", name = "message",  example = "System malfunction")
+    @Schema (description = "Сообщение", name = "message",  example = "success")
     private String message ;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Hidden
     private T data;
 
     public BaseResponse() {
