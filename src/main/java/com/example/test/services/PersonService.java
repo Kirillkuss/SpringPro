@@ -40,6 +40,7 @@ public class PersonService {
     }
 
     public void deletePerson( Long id ){
+        if( personRepository.findById( id ).isEmpty() ) throw new IllegalArgumentException("Клинет с таким ИД не существует");
         personRepository.deleteById( id );
     }
 

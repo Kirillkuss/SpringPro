@@ -16,7 +16,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @SecurityRequirement( name = "Bearer Authentication" )
-@Tag( name = "ANIMALS", description = "CRUD ANIMALS" )
+@Tag( name = "2. ANIMALS", description = "CRUD ANIMALS" )
 @RequestMapping( "animals" )
 @ApiResponses( value = {
     @ApiResponse( responseCode = "200", description = "Success",            content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema( implementation = BaseResponse.class ))) }),

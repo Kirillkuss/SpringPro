@@ -14,30 +14,30 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class MyExceptionHandler  extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(Throwable.class)
+    @ExceptionHandler( Throwable.class )
     public ResponseEntity<BaseResponse> errorBaseResponse( Throwable ex ){
-        log.error( "Throwable >>> " + ex.getMessage());
-        return ResponseEntity.internalServerError().body( BaseResponse.error( HttpStatus.INTERNAL_SERVER_ERROR.value(), ex ));
+        log.error( "MyExceptionHandler >>>>> ", ex );
+        return ResponseEntity.internalServerError().body( new BaseResponse<>( 500, ex.getMessage() ));
     }
 
     @ExceptionHandler( NoSuchElementException.class )
     public ResponseEntity errorBaseResponse( NoSuchElementException ex ){
-        log.error( "NoSuchElementException >>> " +  ex.getMessage() );
+        log.error( "NoSuchElementException >>> ", ex );
         return ResponseEntity.status( HttpStatus.NOT_FOUND )
                              .body( new BaseResponse<>( 404, ex.getMessage() ));
     }
 
     @ExceptionHandler( IllegalArgumentException.class )
     public ResponseEntity errorBaseResponse( IllegalArgumentException ex ){
-        log.error( "IllegalArgumentException >>> " +  ex.getMessage() );
+        log.error( "IllegalArgumentException >>> ", ex );
         return ResponseEntity.status( HttpStatus.BAD_REQUEST )
                              .body( new BaseResponse<>( 400, ex.getMessage() ));
     }
 
     @ExceptionHandler( UsernameNotFoundException.class )
     public ResponseEntity errorBaseResponse( UsernameNotFoundException ex ){
-        log.error( "UsernameNotFoundException >>> " +  ex.getMessage() );
-        return ResponseEntity.status( HttpStatus.BAD_REQUEST )
+        log.error( "UsernameNotFoundException >>> ", ex );
+        return ResponseEntity.status( HttpStatus.UNAUTHORIZED )
                              .body( new BaseResponse<>( 401, "Invalid username or password" ));
     }
     
