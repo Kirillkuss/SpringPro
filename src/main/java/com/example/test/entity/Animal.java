@@ -27,33 +27,33 @@ import javax.persistence.Table;
 public class Animal implements Serializable {
 
     @Id
-    @GeneratedValue( strategy = GenerationType.IDENTITY)
+    @GeneratedValue( strategy = GenerationType.IDENTITY )
     @Column( name = "id")
     @Schema( name        = "id",
              description = "ИД питомца",
              example     = "1",
              required    = true )
-        private Long id;
+    private Long id;
 
     @Column( name = "name")
     @Schema( name        = "name",
              description = "Название питомца",
              example     = "Cat",
              required    = true )
-        private String name;
+    private String name;
 
     @Column( name = "amount")
     @Schema( name        = "amount",
              description = "Стоимость",
              example     = "400",
              required    = true )
-        private BigDecimal amount;
+    private BigDecimal amount;
 
     @Column( name = "count")
     @Schema( name        = "count",
              description = "Количество",
              example     = "30",
              required    = true )
-        private Integer count;
+    private Integer count;
 
 }
