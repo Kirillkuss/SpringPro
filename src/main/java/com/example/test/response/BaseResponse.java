@@ -8,6 +8,7 @@ import lombok.*;
 @Getter
 @EqualsAndHashCode
 @ToString
+@AllArgsConstructor
 public class BaseResponse<T> {
     @Schema (description = "Код сообщения", name = "code",  example = "999")
     private int code;

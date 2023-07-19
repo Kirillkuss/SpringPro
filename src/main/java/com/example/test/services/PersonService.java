@@ -4,8 +4,6 @@ import com.example.test.entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.test.repositories.PersonRepository;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
@@ -28,18 +26,17 @@ public class PersonService {
     }
 
     public Person getPersonById( Long id ){
-        return personRepository.findById( id ).stream().findFirst().orElse( null );
-    }
-    @Transactional
-    public void savePerson( Person person ){
-        personRepository.save( person );
+        return personRepository.findById( id ).stream().findFirst().orElseThrow();
     }
 
+    public Person savePerson( Person person ) throws Exception{
+        if( personRepository.findById( person.getId() ).isPresent() ) throw new IllegalArgumentException("Клинет с таким ИД уже существует");
+        return personRepository.save( person );
+    }
 
-    public void updatePerson( Person person ){
-        if( personRepository.findById(person.getId()).isPresent() ){
-            personRepository.save( person );
-        } else personRepository.save( person);
+    public Person updatePerson( Person person ){
+        if( personRepository.findById( person.getId() ).isEmpty() ) throw new IllegalArgumentException("Клинет с таким ИД не существует");
+        return  personRepository.save( person);
     }
 
     public void deletePerson( Long id ){

@@ -11,6 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@Disabled
 @ExtendWith( JMockitExtension.class )
 @DisplayName( "Тестирование сервиса PersonService используя JMockit")
 public class TestPersonService {

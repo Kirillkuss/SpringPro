@@ -1,18 +1,28 @@
 package com.example.test.services;
 
 import com.example.test.entity.Animal;
+import com.example.test.repositories.AnimalRepository;
+
+import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+import java.util.NoSuchElementException;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import java.util.*;
-
+@Slf4j
 @Service
 public class AnimalService {
 
     @PersistenceContext
     EntityManager em;
+
+    @Autowired
+    private AnimalRepository animalRepository;
 
     public List<Animal> getAll() throws Exception{
         return em.createQuery(" select e from Animal e").getResultList();
@@ -22,27 +32,25 @@ public class AnimalService {
         return ( Animal ) em.createQuery("select e from Animal e where e.id = ?1")
                             .setParameter(1 , id )
                             .getResultList()
-                            .stream().findFirst().orElse( null );
+                            .stream().findFirst().orElseThrow();
     }
 
     @Transactional
     public void delAnimal( Long id) throws Exception{
-        Animal animal = em.find( Animal.class, id );
+        Animal animal = animalRepository.findById( id ).orElseThrow( () ->new  NoSuchElementException("Питомца с такми ИД не существует")); 
         em.remove( animal );
     }
 
     @Transactional
     public void addAnimal(Animal animal) throws Exception{
+        if ( animalRepository.findById( animal.getId() ).isPresent()) throw new IllegalArgumentException( "Питомец с таким ИД уже существует, укажите другой");
         em.merge( animal );
     }
 
     @Transactional
-    public void modyAnimal( Animal animal){
-        Animal response = em.find( Animal.class, animal.getId() );
-        response.setName( animal.getName() );
-        response.setAmount( animal.getAmount() );
-        response.setCount( animal.getCount() );
-        em.merge( response );
+    public void modyAnimal( Animal animal) throws Exception{
+        if ( animalRepository.findById( animal.getId() ).isEmpty() ) throw new IllegalArgumentException( "Питомец с таким ИД не существует, укажите другой");
+        em.merge( animal );
     }
 
     public Integer getCount() throws Exception{

@@ -1,13 +1,22 @@
 package com.example.test.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
-
-import javax.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 
 @Entity
 @Table(name = "Person")
@@ -16,7 +25,8 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 @RequiredArgsConstructor
-public class Person {
+@AllArgsConstructor
+public class Person implements Serializable{
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
@@ -24,40 +34,36 @@ public class Person {
     @Schema( name = "id",
              description = "ИД пользователя",
              example = "1",
-             required = true )       private Long id;
+             required = true )
+    private Long id;
 
     @NotNull
     @Column( name        = "name")
     @Schema( name        = "name",
              description = "Имя",
              example     = "Кирилл",
-             required    = true )    private String name;
+             required    = true )
+    private String name;
 
     @Column( name = "login")
     @Schema( name        = "login",
              description = "Логин",
              example     = "Mouse711",
-             required    = true )    private String login;
+             required    = true )
+    private String login;
 
     @Size( max = 13 )
     @Column( name = "phone" )
     @Schema( name        = "phone",
             description = "Номер телефона",
             example     = "+375297844532",
-            required    = true )      private String phone;
+            required    = true )
+    private String phone;
 
     @Column( name = "wallet")
     @Schema( name        = "wallet",
             description = "Кошелек",
             example     = "50000",
-            required    = true )      private BigDecimal wallet;
-
-    
-    public Person(Long id, String name, String login, String phone, BigDecimal wallet) {
-        this.id = id;
-        this.name = name;
-        this.login = login;
-        this.phone = phone;
-        this.wallet = wallet;
-    }
+            required    = true )
+    private BigDecimal wallet;
 }

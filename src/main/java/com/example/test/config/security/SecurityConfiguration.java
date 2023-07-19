@@ -1,6 +1,5 @@
 package com.example.test.config.security;
 
-import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
@@ -21,7 +20,6 @@ import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthen
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
@@ -30,17 +28,16 @@ import java.security.interfaces.RSAPublicKey;
 public class SecurityConfiguration  {
 
     @Value("${jwt.public.key}")
-    RSAPublicKey publicKey;
+    private RSAPublicKey publicKey;
 
     @Value("${jwt.private.key}")
-    RSAPrivateKey privateKey;
+    private RSAPrivateKey privateKey;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .antMatchers("/auth/**", "/swagger-ui-custom.html", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/webjars/**",
-                                "/swagger-ui/index.html", "/api-docs/**","/api/**")
+        return http.authorizeHttpRequests( authorizeRequests -> authorizeRequests
+                        .antMatchers("/auth/**", "/swagger-ui-custom.html", "/swagger-ui.html", "/swagger-ui/**",
+                                "/swagger-ui/index.html", "/api/**", "/")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
@@ -61,20 +58,18 @@ public class SecurityConfiguration  {
     @Bean
     UserDetailsService allUsers() {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager
-                .createUser(User.builder()
-                        .passwordEncoder(password -> password)
-                        .username("admin")
-                        .password("admin")
-                        .authorities("USER")
-                        .roles("USER").build());
-        manager
-                .createUser(User.builder()
-                        .passwordEncoder(password -> password)
-                        .username("test")
-                        .password("test")
-                        .authorities("USER")
-                        .roles("USER").build());
+        manager.createUser(User.builder()
+                .passwordEncoder(password -> password)
+                .username("admin")
+                .password("admin")
+                .authorities("USER")
+                .roles("USER").build());
+        manager.createUser(User.builder()
+                .passwordEncoder(password -> password)
+                .username("test")
+                .password("test")
+                .authorities("USER")
+                .roles("USER").build());
         return manager;
     }
 
@@ -85,7 +80,8 @@ public class SecurityConfiguration  {
 
     @Bean
     JwtEncoder jwtEncoder() {
-        JWK jwk = new RSAKey.Builder(this.publicKey).privateKey(this.privateKey).build();
-        return new NimbusJwtEncoder(new ImmutableJWKSet<>(new JWKSet(jwk)));
+        return new NimbusJwtEncoder( new ImmutableJWKSet<>( new JWKSet( new RSAKey.Builder( this.publicKey )
+                                                                                  .privateKey( this.privateKey )
+                                                                                  .build() )));
     }
 }
