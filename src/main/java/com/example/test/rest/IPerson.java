@@ -1,5 +1,6 @@
 package com.example.test.rest;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,23 +28,23 @@ public interface IPerson {
 
     @RequestMapping(method = RequestMethod.GET, value = "/all")
     @Operation( description = "Список всех людей", summary = "Список всех людей")
-    public BaseResponse getAllPerson();
+    public ResponseEntity getAllPerson();
 
     @RequestMapping( method = RequestMethod.GET, value = "/find/{id}")
     @Operation( description = "Поиск человека по ИД", summary = "Поиск человека по ИД")
 
-    public BaseResponse findByIdPerson( @RequestParam Long id ) throws Exception;
+    public ResponseEntity findByIdPerson( @RequestParam Long id ) throws Exception;
 
     @RequestMapping( method = RequestMethod.PUT, value = "/add")
     @Operation( description = "Добавить человека", summary = "Добавить человека")
-    public BaseResponse savePerson( @RequestBody Person person ) throws Exception;
+    public ResponseEntity savePerson( @RequestBody Person person ) throws Exception;
 
     @RequestMapping( method = RequestMethod.POST, value = "/update")
     @Operation( description = "Обновить человека", summary = "Обновить человека")
-    public BaseResponse updatePerson( @RequestBody Person person ) throws Exception;
+    public ResponseEntity updatePerson( @RequestBody Person person ) throws Exception;
 
     @RequestMapping( method = RequestMethod.DELETE, value = "/delete")
     @Operation( description = "Удалить человека по ИД", summary = "Удалить человека по ИД")
-    public BaseResponse deletePerson( @RequestParam Long id ) throws Exception;
+    public ResponseEntity deletePerson( @RequestParam Long id ) throws Exception;
     
 }

@@ -10,15 +10,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -34,7 +31,7 @@ public class SecurityConfiguration  {
     private RSAPrivateKey privateKey;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain( HttpSecurity http ) throws Exception {
         return http.authorizeHttpRequests( authorizeRequests -> authorizeRequests
                         .antMatchers("/auth/**", "/swagger-ui-custom.html", "/swagger-ui.html", "/swagger-ui/**",
                                 "/swagger-ui/index.html", "/api/**", "/")
@@ -53,24 +50,6 @@ public class SecurityConfiguration  {
                         .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
                         .and())
                 .build();
-    }
-
-    @Bean
-    UserDetailsService allUsers() {
-        InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-        manager.createUser(User.builder()
-                .passwordEncoder(password -> password)
-                .username("admin")
-                .password("admin")
-                .authorities("USER")
-                .roles("USER").build());
-        manager.createUser(User.builder()
-                .passwordEncoder(password -> password)
-                .username("test")
-                .password("test")
-                .authorities("USER")
-                .roles("USER").build());
-        return manager;
     }
 
     @Bean

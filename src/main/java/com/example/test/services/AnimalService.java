@@ -2,19 +2,14 @@ package com.example.test.services;
 
 import com.example.test.entity.Animal;
 import com.example.test.repositories.AnimalRepository;
-
-import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-@Slf4j
 @Service
 public class AnimalService {
 
@@ -37,8 +32,8 @@ public class AnimalService {
 
     @Transactional
     public void delAnimal( Long id) throws Exception{
-        Animal animal = animalRepository.findById( id ).orElseThrow( () ->new  NoSuchElementException("Питомца с такми ИД не существует")); 
-        em.remove( animal );
+        em.remove( animalRepository.findById( id )
+                                   .orElseThrow( () ->new NoSuchElementException("Питомца с такми ИД не существует")) );
     }
 
     @Transactional

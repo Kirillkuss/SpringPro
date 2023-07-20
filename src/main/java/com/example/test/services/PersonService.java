@@ -7,6 +7,7 @@ import com.example.test.repositories.PersonRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class PersonService {
@@ -26,7 +27,8 @@ public class PersonService {
     }
 
     public Person getPersonById( Long id ){
-        return personRepository.findById( id ).stream().findFirst().orElseThrow();
+        return personRepository.findById( id )
+                               .orElseThrow( () -> new NoSuchElementException( "Клиента с таким ИД не существует" ));
     }
 
     public Person savePerson( Person person ) throws Exception{

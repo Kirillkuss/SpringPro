@@ -6,6 +6,8 @@ import com.example.test.rest.IAnimal;
 import com.example.test.services.AnimalService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,36 +31,42 @@ public class AnimalController implements IAnimal {
         log.info( message );
     }
 
-    public BaseResponse getAll() throws Exception{
+    public ResponseEntity getAll() throws Exception{
         sendMessage( "SpringPro --  method getAllAnimals Success ");
-        return new BaseResponse( 200, "success", service.getAll());
+        return ResponseEntity.status( HttpStatus.OK)
+                             .body(  service.getAll() ) ;
     }
 
-    public BaseResponse getFindById( Long id )  throws Exception{
+    public ResponseEntity getFindById( Long id )  throws Exception{
         sendMessage( "SpringPro --  method getFindByIdAnimal Success ");
-        return new BaseResponse( 200, "success", service.getById( id ));  
+        return ResponseEntity.status( HttpStatus.OK)
+                             .body( service.getById( id ));  
     }
 
-    public BaseResponse delete( Long id ) throws Exception{
+    public ResponseEntity delete( Long id ) throws Exception{
         sendMessage( "SpringPro --  method delete Success ");
         service.delAnimal( id );
-        return BaseResponse.success();
+        return ResponseEntity.status( HttpStatus.NO_CONTENT )
+                             .body( BaseResponse.success() );
     }
 
-    public BaseResponse addAnimal( Animal animal ) throws Exception{
+    public ResponseEntity addAnimal( Animal animal ) throws Exception{
         sendMessage( "SpringPro --  method addAnimal Success ");
         service.addAnimal( animal );
-        return  BaseResponse.success();
+        return ResponseEntity.status( HttpStatus.NO_CONTENT)
+                             .body( BaseResponse.success() ) ;
     }
 
-    public BaseResponse modyAnimal( Animal animal ) throws Exception{
+    public ResponseEntity modyAnimal( Animal animal ) throws Exception{
         sendMessage( "SpringPro --  method modyAnimal Success ");
         service.modyAnimal( animal );
-        return BaseResponse.success();
+        return ResponseEntity.status( HttpStatus.NO_CONTENT )
+                             .body(BaseResponse.success());
     }
 
-    public BaseResponse getCount() throws Exception{
+    public ResponseEntity getCount() throws Exception{
         sendMessage( "SpringPro --  method getCount Success  count: " + service.getCount() );
-        return new BaseResponse( 200, "success", service.getCount());
+        return ResponseEntity.status( HttpStatus.OK )
+                             .body( new BaseResponse<>( 200, "success", service.getCount() )) ;
     }
 }

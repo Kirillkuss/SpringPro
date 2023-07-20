@@ -4,6 +4,8 @@ import com.example.test.entity.Person;
 import com.example.test.response.BaseResponse;
 import com.example.test.rest.IPerson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.test.services.PersonService;
 
@@ -13,25 +15,27 @@ public class PersonController implements IPerson {
     @Autowired
     private PersonService personService;
 
-    public BaseResponse getAllPerson() {
-        return new BaseResponse( 200, "success", personService.findAllTwo());
+    public ResponseEntity getAllPerson() {
+        return ResponseEntity.status( HttpStatus.OK )
+                             .body( personService.findAllTwo());
     }
 
-    public BaseResponse findByIdPerson( Long id ) throws Exception{
-        return new BaseResponse( 200, "success", personService.getPersonById( id ));
+    public ResponseEntity findByIdPerson( Long id ) throws Exception{
+        return ResponseEntity.status( HttpStatus.OK ).body( personService.getPersonById( id )); 
     }
 
-    public BaseResponse savePerson( Person person ) throws Exception{
-        return new BaseResponse( 200, "success", personService.savePerson( person ));
+    public ResponseEntity savePerson( Person person ) throws Exception{
+        return ResponseEntity.status( HttpStatus.CREATED ).body( personService.savePerson( person ));
     }
 
-    public BaseResponse updatePerson( Person person ) throws Exception{
-        return new BaseResponse( 200, "success", personService.updatePerson( person));
+    public ResponseEntity updatePerson( Person person ) throws Exception{
+        return ResponseEntity.status( HttpStatus.OK).body( personService.updatePerson( person)); 
     }
 
-    public BaseResponse deletePerson( Long id ) throws Exception{
+    public ResponseEntity deletePerson( Long id ) throws Exception{
         personService.deletePerson( id );
-        return BaseResponse.success();
+        return ResponseEntity.status( HttpStatus.NO_CONTENT )
+                             .body( BaseResponse.success() ) ;
     }
 
 }

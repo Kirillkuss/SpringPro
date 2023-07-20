@@ -34,7 +34,7 @@ public class BaseResponse<T> {
     }
 
     public static BaseResponse success(){
-        return new BaseResponse( 0, "success");
+        return new BaseResponse( 204, "success");
     }
 
     public static BaseResponse error( int code, Throwable e ){
