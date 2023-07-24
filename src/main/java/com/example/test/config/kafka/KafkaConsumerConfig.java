@@ -9,7 +9,6 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ public class KafkaConsumerConfig {
         props.put( ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress );
         props.put( ConsumerConfig.GROUP_ID_CONFIG, "12345");
         props.put( ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put( ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put( ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "com.example.test.config.kafka.serializer.PersonDeserializer");
         return new DefaultKafkaConsumerFactory<>(props);
     }
 

@@ -7,7 +7,6 @@ import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
-
 import java.util.HashMap;
 import java.util.Map;
 
