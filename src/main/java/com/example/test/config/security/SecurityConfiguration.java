@@ -38,7 +38,6 @@ public class SecurityConfiguration  {
                         .permitAll()
                         .anyRequest()
                         .authenticated())
-                .cors().disable()
                 .csrf().disable()
                 .formLogin().disable()
                 .httpBasic().disable()
