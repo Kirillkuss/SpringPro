@@ -13,6 +13,8 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.NoSuchElementException;
+
 import javax.persistence.EntityManager;
 import java.io.File;
 import org.apache.commons.io.IOUtils;
@@ -45,15 +47,15 @@ public class ImageController {
         try{
             entityManager.unwrap( Session.class ).doWork(( Connection conn ) ->{
                 try( PreparedStatement ps  = conn.prepareStatement("Select * From images im where im.id = " + id ) ){
-                        try( ResultSet rs = ps.executeQuery()){
-                        rs.next();
+                    ResultSet rs = ps.executeQuery();
+                    while (rs.next()) {
                         message = rs.getString( 2 );
-                        response = rs.getBinaryStream( 3 );
-                        }
+                        response = rs.getBinaryStream( 3 );  
+                    }
                 }
             });
         }catch( Exception ex ){
-            ex.printStackTrace( System.err );
+            
         }
         return IOUtils.toByteArray(response);
     }
