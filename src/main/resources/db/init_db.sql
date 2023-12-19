@@ -25,3 +25,9 @@ CREATE TABLE Users(
 	role_user VARCHAR( 50 ) NOT NULL,
 	email VARCHAR( 50 ) 
 );
+
+CREATE TABLE Images(
+	id serial PRIMARY KEY,
+	imagename text NOT NULL,
+	img bytea NOT NULL
+);
