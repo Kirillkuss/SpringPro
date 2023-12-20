@@ -1,82 +1,88 @@
 package com.example.test.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
-
+import com.example.test.entity.Image;
+import com.example.test.repositories.ImageRepository;
+import com.example.test.response.BaseResponse;
 import com.example.test.response.RequestImage;
-
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.example.test.rest.RestImage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.NoSuchElementException;
-
 import javax.persistence.EntityManager;
+
+import java.io.BufferedReader;
 import java.io.File;
 import org.apache.commons.io.IOUtils;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-/**
- *  InputStream stream = new FileInputStream(new File("D://Project/dev/SpringPro/src/main/resources/static/FALCON.jpg"));
- *   InputStream in = getClass().getResourceAsStream("/com/example/test/FALCON.jpg");
- */
-@Tag( name = "images", description = "Работа с изображениями" )
-@RequestMapping( "images" )
+
 @RestController
-public class ImageController {
-    
+public class ImageController implements RestImage {
+
+    @Autowired ImageRepository imageRepository;
     @Autowired EntityManager entityManager;
     
-    String message = null;
-    InputStream response = null;
+    private byte[] res = null;
 
-    @GetMapping( value = "/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
-    @Operation( description = "Получение изображения", summary = "Получение изображения")
-    public @ResponseBody byte[] getImage( @Parameter( description = "Ид" , example = "1") Long id) throws IOException  {
+    @Override
+    public byte[] getImage( Long id){
         try{
             entityManager.unwrap( Session.class ).doWork(( Connection conn ) ->{
                 try( PreparedStatement ps  = conn.prepareStatement("Select * From images im where im.id = " + id ) ){
                     ResultSet rs = ps.executeQuery();
                     while (rs.next()) {
-                        message = rs.getString( 2 );
-                        response = rs.getBinaryStream( 3 );  
+                        res = IOUtils.toByteArray( rs.getBinaryStream( 3 )) ;
                     }
+                } catch (IOException e) {
+                    e.printStackTrace(  System.err );
                 }
             });
-        }catch( Exception ex ){
-            
+        }catch( Exception  ex ){
+            ex.printStackTrace( System.err );
         }
-        return IOUtils.toByteArray(response);
+        if( res == null ) throw new IllegalArgumentException( "Нет такого изображения");
+        return res;
+        
     }
 
-    @PostMapping("/add")
-    @Operation( description = "Добавить изображения", summary = "Добавить изображения")
-    public ResponseEntity<String> addImage( @RequestBody RequestImage requestImage ) throws IOException {
-        File file = new File( requestImage.getPath() );
-        FileInputStream fis = new FileInputStream(file);
-        entityManager.unwrap( Session.class ).doWork(( Connection conn ) ->{
-            try( PreparedStatement ps  = conn.prepareStatement("INSERT INTO images VALUES (default, ?, ?)") ){
-              //  ps.setLong(1 , 1L );
-                ps.setString(1, file.getName());
-                ps.setBinaryStream(2, fis, (int)file.length() );
-                ps.executeUpdate();
-            }
-        });
-        fis.close();
+    //"D://Project/dev/SpringPro/src/main/resources/image/FALCON.jpg"
+    @Override
+    public ResponseEntity<String> addImage(  RequestImage requestImage ) throws IOException {
+        File file = new File( requestImage.getName());
+        try(FileInputStream fis = new FileInputStream(file)){
+            entityManager.unwrap( Session.class ).doWork(( Connection conn ) ->{
+                try( PreparedStatement ps  = conn.prepareStatement("INSERT INTO images VALUES (default, ?, ?)") ){
+                    ps.setString(1, file.getName());
+                    ps.setBinaryStream(2, fis, (int)file.length() );
+                    ps.executeUpdate();
+                }
+            });
+        }
         return ResponseEntity.ok( "Добавлено изображение");
     }
-    
-    
-    
+
+    @Override
+    public ResponseEntity<byte[]> getFindbyId( Long id ) throws Exception{
+        return ResponseEntity.ok( imageRepository.findById( id )
+                              .map( s -> s.getImg() )
+                              .orElseThrow( () ->new IllegalArgumentException("Нет изображения с таким ИД")));
+    }
+
+    @Override
+    public ResponseEntity<BaseResponse> addImageFromRepoz( RequestImage requestImage ) throws Exception{
+        try(InputStream put = ImageController.class.getResourceAsStream( "/image/" + requestImage.getName() +".jpg" )){
+            if( put == null ) throw new IllegalArgumentException("Файл не найден");    
+            imageRepository.save( new Image( null, requestImage.getName(), IOUtils.toByteArray( put )));
+        }catch(Exception ex ){
+           ex.printStackTrace( System.err );
+        }
+        return ResponseEntity.ok( new BaseResponse(200, "добавлен"));
+    }
+
 }

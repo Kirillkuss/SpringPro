@@ -1,5 +1,6 @@
 package com.example.test.handler;
 
+import java.io.FileNotFoundException;
 import java.util.NoSuchElementException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,6 +40,13 @@ public class MyExceptionHandler  extends ResponseEntityExceptionHandler {
         log.error( "UsernameNotFoundException >>> ", ex );
         return ResponseEntity.status( HttpStatus.UNAUTHORIZED )
                              .body( new BaseResponse<>( 401, "Invalid username or password" ));
+    }
+
+    @ExceptionHandler( FileNotFoundException.class )
+    public ResponseEntity errorBaseResponse( FileNotFoundException ex ){
+        log.error( "FileNotFoundException >>> ", ex );
+        return ResponseEntity.status( HttpStatus.BAD_REQUEST )
+                             .body( new BaseResponse<>( 400, ex.getMessage() ));
     }
     
 

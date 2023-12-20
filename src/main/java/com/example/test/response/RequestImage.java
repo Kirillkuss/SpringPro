@@ -10,10 +10,10 @@ import lombok.Setter;
 @Setter
 public class RequestImage {
 
-    @Schema( name        = "path",
-            description = "Путь",
-            example     = "D://Project/dev/SpringPro/src/main/resources/static/FALCON.jpg",
+    @Schema( name        = "name",
+            description = "Наименование файла",
+            example     = "FALCON",
             required    = true )
-    private String path;
+    private String name;
     
 }

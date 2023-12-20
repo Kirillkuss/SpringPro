@@ -34,7 +34,7 @@ public class SecurityConfiguration  {
     public SecurityFilterChain filterChain( HttpSecurity http ) throws Exception {
         return http.authorizeHttpRequests( authorizeRequests -> authorizeRequests
                         .antMatchers("/auth/**", "/swagger-ui-custom.html", "/swagger-ui.html", "/swagger-ui/**",
-                                "/swagger-ui/index.html", "/api/**", "/", "/web/doc", "/web/doc/**" , "/images/**")
+                                "/swagger-ui/index.html", "/api/**", "/", "/web/test", "/web/test/**" , "/images/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
