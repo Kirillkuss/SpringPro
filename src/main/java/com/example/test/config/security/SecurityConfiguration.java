@@ -29,12 +29,11 @@ public class SecurityConfiguration  {
 
     @Value("${jwt.private.key}")
     private RSAPrivateKey privateKey;
-
     @Bean
     public SecurityFilterChain filterChain( HttpSecurity http ) throws Exception {
         return http.authorizeHttpRequests( authorizeRequests -> authorizeRequests
-                        .antMatchers("/auth/**", "/swagger-ui-custom.html", "/swagger-ui.html", "/swagger-ui/**",
-                                "/swagger-ui/index.html", "/api/**", "/", "/web/test", "/web/test/**" , "/images/**")
+                        .antMatchers("/auth/**", "/test/**", "/swagger-ui-custom.html", "/swagger-ui.html", "/swagger-ui/**",
+                                "/swagger-ui/index.html", "/", "/web/api", "/api/**" , "/images/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())

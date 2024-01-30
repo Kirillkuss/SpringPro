@@ -27,7 +27,7 @@ public class AuthenticationController implements IAuthentication {
         if ( userRepository.findByToken(user.getUsername(), user.getPassword()).isPresent() ) {
             String token = generateToken(user);
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.set("X-AUTH-TOKEN", token);
+            //httpHeaders.set("X-AUTH-TOKEN", token);
             return ResponseEntity.ok()
                                  .headers(httpHeaders)
                                  .contentType(MediaType.APPLICATION_JSON)
@@ -41,7 +41,7 @@ public class AuthenticationController implements IAuthentication {
 
     private String generateToken(User user) {
         Instant now = Instant.now();
-        long expiry = 600L; // five minutes
+        long expiry = 60000L; // five minutes
         JwtClaimsSet claims = JwtClaimsSet.builder()
                                           .issuer( "self" )
                                           .issuedAt( now )

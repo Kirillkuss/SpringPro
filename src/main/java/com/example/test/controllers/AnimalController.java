@@ -23,44 +23,51 @@ public class AnimalController implements IAnimal {
     private AnimalService service;
 
     @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+       /** @Autowired
     private KafkaTemplate<String, Animal> kafkaTemplate;
 
     public void sendMessage( Animal animal ){
         kafkaTemplate.send("TopicTwo", animal );
+    }*/
+
+    public void sendMessage(String msg) {
+        kafkaTemplate.send("TopicTwo", msg);
     }
 
     @KafkaListener( topics = "TopicOne", groupId = "MyGroupTopics")
-    public void getMessageTwo( Person person ){
-        log.info( person.toString() );
+    public void getMessageTwo( String msg ){
+        log.info( msg );
     }
 
     public ResponseEntity getAll() throws Exception{
-        sendMessage( service.getAll().stream().findFirst().orElse( null ));
+        sendMessage( "SpringPro - getAll");
         return ResponseEntity.status( HttpStatus.OK)
                              .body(  service.getAll() ) ;
     }
 
     public ResponseEntity getFindById( Long id )  throws Exception{
-        sendMessage( service.getById( id ));
+        sendMessage( "SpringPro - getFindById");
         return ResponseEntity.status( HttpStatus.OK)
                              .body( service.getById( id ));  
     }
 
     public ResponseEntity delete( Long id ) throws Exception{
-        service.delAnimal( id );
+        sendMessage( "SpringPro - delete");
         return ResponseEntity.status( HttpStatus.NO_CONTENT )
                              .body( BaseResponse.success() );
     }
 
     public ResponseEntity addAnimal( Animal animal ) throws Exception{
-        sendMessage( animal );
+        sendMessage( "SpringPro - addAnimal");
         service.addAnimal( animal );
         return ResponseEntity.status( HttpStatus.NO_CONTENT)
                              .body( BaseResponse.success() ) ;
     }
 
     public ResponseEntity modyAnimal( Animal animal ) throws Exception{
-        sendMessage( animal );
+        sendMessage( animal.toString() );
         service.modyAnimal( animal );
         return ResponseEntity.status( HttpStatus.NO_CONTENT )
                              .body(BaseResponse.success());
