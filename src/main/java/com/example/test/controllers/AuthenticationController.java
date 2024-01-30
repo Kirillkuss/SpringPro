@@ -41,7 +41,7 @@ public class AuthenticationController implements IAuthentication {
 
     private String generateToken(User user) {
         Instant now = Instant.now();
-        long expiry = 60000L; // five minutes
+        long expiry = 600L; // five minutes
         JwtClaimsSet claims = JwtClaimsSet.builder()
                                           .issuer( "self" )
                                           .issuedAt( now )
