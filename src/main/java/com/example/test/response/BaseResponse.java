@@ -33,10 +33,12 @@ public class BaseResponse<T> {
         this.message = message;
     }
 
+    @SuppressWarnings("rawtypes")
     public static BaseResponse success(){
         return new BaseResponse( 204, "success");
     }
 
+    @SuppressWarnings("rawtypes")
     public static BaseResponse error( int code, Throwable e ){
         return new BaseResponse( 0, null == e.getMessage() ? "System malfunction" : e.getMessage());
     }

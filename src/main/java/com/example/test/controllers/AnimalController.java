@@ -6,6 +6,9 @@ import com.example.test.response.BaseResponse;
 import com.example.test.rest.IAnimal;
 import com.example.test.services.AnimalService;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,13 +35,13 @@ public class AnimalController implements IAnimal {
         log.info( "Message from ReactProd >> " + person.toString() );
     }
 
-    public ResponseEntity getAll() throws Exception{
-        sendMessage( service.getAll().stream().findFirst().orElse( null ));
+    public ResponseEntity<List<Animal>> getAll() throws Exception{
+        service.getAll().stream().forEach( animal -> sendMessage( animal ) );
         return ResponseEntity.status( HttpStatus.OK)
                              .body(  service.getAll() ) ;
     }
 
-    public ResponseEntity getFindById( Long id )  throws Exception{
+    public ResponseEntity<Animal> getFindById( Long id )  throws Exception{
         sendMessage( service.getById( id ));
         return ResponseEntity.status( HttpStatus.OK)
                              .body( service.getById( id ));  
@@ -57,14 +60,17 @@ public class AnimalController implements IAnimal {
                              .body( BaseResponse.success() ) ;
     }
 
-    public ResponseEntity modyAnimal( Animal animal ) throws Exception{
+    @SuppressWarnings("rawtypes")
+    public ResponseEntity<BaseResponse> modyAnimal( Animal animal ) throws Exception{
         sendMessage( animal );
         service.modyAnimal( animal );
         return ResponseEntity.status( HttpStatus.NO_CONTENT )
                              .body(BaseResponse.success());
     }
 
-    public ResponseEntity getCount() throws Exception{
+    
+    @SuppressWarnings("rawtypes")
+    public ResponseEntity<BaseResponse> getCount() throws Exception{
         //sendMessage( "SpringPro --  method getCount Success  count: " + service.getCount() );
         return ResponseEntity.status( HttpStatus.OK )
                              .body( new BaseResponse<>( 200, "success", service.getCount() )) ;

@@ -15,6 +15,7 @@ public class PersonService {
     @PersistenceContext
     private EntityManager em;
 
+    @SuppressWarnings("unchecked")
     public List<Person> findAllTwo(){
         return em.createQuery( "select e from Person e ").getResultList();
     }

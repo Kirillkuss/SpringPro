@@ -29,25 +29,24 @@ public class SecurityConfiguration  {
 
     @Value("${jwt.private.key}")
     private RSAPrivateKey privateKey;
+
     @Bean
     public SecurityFilterChain filterChain( HttpSecurity http ) throws Exception {
-        return http.authorizeHttpRequests( authorizeRequests -> authorizeRequests
-                        .antMatchers("/auth/**", "/test/**", "/swagger-ui-custom.html", "/swagger-ui.html", "/swagger-ui/**",
-                                "/swagger-ui/index.html", "/", "/web/api", "/api/**" , "/images/**")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated())
-                .csrf().disable()
-                .formLogin().disable()
-                .httpBasic().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-                .exceptionHandling(exceptions -> exceptions
-                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-                        .and())
-                .build();
+        return http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
+            .antMatchers( "/auth/**", "/test/**", "/swagger-ui-custom.html", "/swagger-ui.html", "/swagger-ui/**",
+            "/swagger-ui/index.html", "/", "/web/api", "/api/**", "/images/**")
+            .permitAll()
+            .anyRequest()
+            .authenticated())
+            .csrf(csrf -> csrf.disable())
+            .formLogin(login -> login.disable())
+            .httpBasic(basic -> basic.disable())
+            .sessionManagement(mng -> mng.sessionCreationPolicy( SessionCreationPolicy.STATELESS ))
+            .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+            .exceptionHandling( ex -> ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+                                        .and())
+            .build();
     }
 
     @Bean

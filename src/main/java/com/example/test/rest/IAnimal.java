@@ -1,5 +1,7 @@
 package com.example.test.rest;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,26 +30,31 @@ public interface IAnimal {
 
     @RequestMapping( method = RequestMethod.GET, value = "/all")
     @Operation( description = "Список всех питомцев", summary = "Список всех питомцев")
-    public ResponseEntity getAll() throws Exception;
+    public ResponseEntity<List<Animal>> getAll() throws Exception;
 
     @RequestMapping( method = RequestMethod.GET, value = "/find/{id}")
     @Operation( description = "Поиск питомца по ИД", summary = "Поиск питомца по ИД")
-    public ResponseEntity getFindById( @RequestParam Long id )  throws Exception;
+    public ResponseEntity<Animal> getFindById( @RequestParam Long id )  throws Exception;
 
+    @SuppressWarnings("rawtypes")
     @RequestMapping( method = RequestMethod.DELETE, value = "/delete/{id}")
     @Operation( description = "Удаление питомца по ИД", summary = "Удаление питомца по ИД")
     public ResponseEntity delete( @RequestParam Long id ) throws Exception;
 
+    @SuppressWarnings("rawtypes")
     @RequestMapping ( method = RequestMethod.PUT , value = "/add")
     @Operation( description = "Создание питомца", summary = "Создание питомца")
-    public ResponseEntity addAnimal( @RequestBody  Animal animal ) throws Exception;
+    public ResponseEntity<BaseResponse> addAnimal( @RequestBody  Animal animal ) throws Exception;
 
+    @SuppressWarnings("rawtypes")
     @RequestMapping( method = RequestMethod.POST, value = "/change")
     @Operation( description = "Обновление питомца", summary = "Обновление питомца")
     public ResponseEntity modyAnimal( @RequestBody Animal animal ) throws Exception;
 
+    
+    @SuppressWarnings("rawtypes")
     @RequestMapping( method = RequestMethod.GET, value = "/count")
     @Operation( description = "Количество питомцев", summary = "Количество питомцев")
-    public ResponseEntity getCount() throws Exception;
+    public ResponseEntity<BaseResponse> getCount() throws Exception;
     
 }

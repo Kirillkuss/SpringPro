@@ -19,6 +19,7 @@ public class AnimalService {
     @Autowired
     private AnimalRepository animalRepository;
 
+    @SuppressWarnings("unchecked")
     public List<Animal> getAll() throws Exception{
         return em.createQuery(" select e from Animal e").getResultList();
     }
@@ -48,6 +49,7 @@ public class AnimalService {
         em.merge( animal );
     }
 
+    @SuppressWarnings("unchecked")
     public Integer getCount() throws Exception{
         Long response = (Long) em.createQuery( "select count ( t.id ) from Animal t")
                                  .getResultList()

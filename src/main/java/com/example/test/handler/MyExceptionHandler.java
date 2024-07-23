@@ -15,12 +15,14 @@ import lombok.extern.slf4j.Slf4j;
 @ControllerAdvice
 public class MyExceptionHandler  extends ResponseEntityExceptionHandler {
 
+    @SuppressWarnings("rawtypes")
     @ExceptionHandler( Throwable.class )
     public ResponseEntity<BaseResponse> errorBaseResponse( Throwable ex ){
         log.error( "MyExceptionHandler >>>>> ", ex );
         return ResponseEntity.internalServerError().body( new BaseResponse<>( 500, ex.getMessage() ));
     }
 
+    @SuppressWarnings("rawtypes")
     @ExceptionHandler( NoSuchElementException.class )
     public ResponseEntity errorBaseResponse( NoSuchElementException ex ){
         log.error( "NoSuchElementException >>> ", ex );
@@ -28,6 +30,7 @@ public class MyExceptionHandler  extends ResponseEntityExceptionHandler {
                              .body( new BaseResponse<>( 404, ex.getMessage() ));
     }
 
+    @SuppressWarnings("rawtypes")
     @ExceptionHandler( IllegalArgumentException.class )
     public ResponseEntity errorBaseResponse( IllegalArgumentException ex ){
         log.error( "IllegalArgumentException >>> ", ex );
@@ -35,6 +38,7 @@ public class MyExceptionHandler  extends ResponseEntityExceptionHandler {
                              .body( new BaseResponse<>( 400, ex.getMessage() ));
     }
 
+    @SuppressWarnings("rawtypes")
     @ExceptionHandler( UsernameNotFoundException.class )
     public ResponseEntity errorBaseResponse( UsernameNotFoundException ex ){
         log.error( "UsernameNotFoundException >>> ", ex );
@@ -42,6 +46,7 @@ public class MyExceptionHandler  extends ResponseEntityExceptionHandler {
                              .body( new BaseResponse<>( 401, "Invalid username or password" ));
     }
 
+    @SuppressWarnings("rawtypes")
     @ExceptionHandler( FileNotFoundException.class )
     public ResponseEntity errorBaseResponse( FileNotFoundException ex ){
         log.error( "FileNotFoundException >>> ", ex );
