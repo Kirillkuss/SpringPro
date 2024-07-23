@@ -9,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PersonDeserializer implements Deserializer<Person> {
 
-    private ObjectMapper om = new ObjectMapper();
-
     @Override
     public Person deserialize(String topic, byte[] data) {
         try {
@@ -19,7 +17,7 @@ public class PersonDeserializer implements Deserializer<Person> {
                 return null;
             }
             log.info( "Deserializing entity Person...");
-            return om.readValue( new String( data, "UTF-8" ), Person.class);
+            return new ObjectMapper().readValue( new String( data, "UTF-8" ), Person.class);
         } catch ( Exception e ) {
             throw new SerializationException( "Error when deserializing byte[] to Person" );
         }
