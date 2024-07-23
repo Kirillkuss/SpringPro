@@ -6,12 +6,9 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
-import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
-//http://127.0.0.1:8080/swagger-ui/index.html#/
+//http://127.0.0.1:8084/swagger-ui/index.html#/
 @Slf4j
 @SpringBootApplication
 @OpenAPIDefinition( info = @Info( title = "API for Animal and Person CRUD", version = "3.0", description = "CRUD" ))
@@ -26,8 +23,5 @@ public class SpringProApplication {
 
     }
     
-    @Bean
-    public HttpTraceRepository httpTraceRepository(){
-        return new InMemoryHttpTraceRepository();
-    }
+
 }
