@@ -12,5 +12,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query( "SELECT u from User u WHERE u.username = :username and u.password = :password")
     Optional<User> findByToken( String username, String password );
+
+    @Query( "SELECT u from User u WHERE u.username = :username")
+    Optional<User> findByLogin( String username );
     
 }

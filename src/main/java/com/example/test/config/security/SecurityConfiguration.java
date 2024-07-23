@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
@@ -33,20 +35,20 @@ public class SecurityConfiguration  {
     @Bean
     public SecurityFilterChain filterChain( HttpSecurity http ) throws Exception {
         return http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
-            .antMatchers( "/auth/**", "/test/**", "/swagger-ui-custom.html", "/swagger-ui.html", "/swagger-ui/**",
-            "/swagger-ui/index.html", "/", "/web/api", "/api/**", "/images/**")
-            .permitAll()
-            .anyRequest()
-            .authenticated())
-            .csrf(csrf -> csrf.disable())
-            .formLogin(login -> login.disable())
-            .httpBasic(basic -> basic.disable())
-            .sessionManagement(mng -> mng.sessionCreationPolicy( SessionCreationPolicy.STATELESS ))
-            .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
-            .exceptionHandling( ex -> ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
-                                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
-                                        .and())
-            .build();
+                    .antMatchers( "/auth/**", "/test/**", "/swagger-ui-custom.html", "/swagger-ui.html", "/swagger-ui/**",
+                    "/swagger-ui/index.html", "/", "/web/api", "/api/**", "/images/**")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated())
+                    .csrf(csrf -> csrf.disable())
+                    .formLogin(login -> login.disable())
+                    .httpBasic(basic -> basic.disable())
+                    .sessionManagement(mng -> mng.sessionCreationPolicy( SessionCreationPolicy.STATELESS ))
+                    .oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt)
+                    .exceptionHandling( ex -> ex.authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                                                .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
+                                                .and())
+                    .build();
     }
 
     @Bean
@@ -59,5 +61,13 @@ public class SecurityConfiguration  {
         return new NimbusJwtEncoder( new ImmutableJWKSet<>( new JWKSet( new RSAKey.Builder( this.publicKey )
                                                                                   .privateKey( this.privateKey )
                                                                                   .build() )));
+    }
+    /**
+     * Encode for user
+     * @return
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
     }
 }

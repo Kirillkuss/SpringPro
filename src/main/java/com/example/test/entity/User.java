@@ -16,6 +16,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -32,6 +33,9 @@ public class User implements Serializable {
     @Hidden
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     @Column( name = "id")
+    @Schema( name        = "id",
+             description = "id",
+             example     = "-1" )
     private Long id;
 
     @Column( name = "username")
@@ -47,7 +51,7 @@ public class User implements Serializable {
              description = "admin",
              example     = "admin",
              required    = true )
-    @NotNull 
+    @NotNull
     private String password;
 
     @Column( name = "role_user")
