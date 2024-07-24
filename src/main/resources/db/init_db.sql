@@ -23,7 +23,8 @@ CREATE TABLE Users(
 	username VARCHAR( 50 ) NOT NULL,
 	password_user VARCHAR( 250 ) NOT NULL,
 	role_user VARCHAR( 50 ) NOT NULL,
-	email VARCHAR( 50 ) 
+	email VARCHAR( 50 ),
+	salt VARCHAR( 250 ) NOT NULL 
 );
 
 CREATE TABLE Images(

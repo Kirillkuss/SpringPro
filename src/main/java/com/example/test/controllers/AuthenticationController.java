@@ -30,7 +30,7 @@ public class AuthenticationController implements IAuthentication {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public ResponseEntity<BaseResponse> login( @RequestBody User user ) {
         Optional<User> request = userRepository.findByLogin(user.getUsername());
-        if ( request.isPresent() && userSuervice.checkUserPassword( user.getPassword(), request.get().getPassword())){
+        if ( request.isPresent() && userSuervice.checkUserPassword( user.getPassword(), request.get().getSalt(), request.get().getPassword())){
             String token = generateToken(user);
             HttpHeaders httpHeaders = new HttpHeaders();
             //httpHeaders.set("X-AUTH-TOKEN", token);

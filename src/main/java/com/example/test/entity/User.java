@@ -62,4 +62,8 @@ public class User implements Serializable {
     @Hidden
     private String email;
 
+    @Hidden
+    @Column( name = "salt")
+    private String salt;
+
 }
