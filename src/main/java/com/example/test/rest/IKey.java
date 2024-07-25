@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.test.response.BaseResponse;
+import com.example.test.response.BaseResponseError;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -19,8 +20,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping( "keys" )
     @ApiResponses(value = {
         @ApiResponse( responseCode = "200", description = "Успешно",        content = { @Content( array = @ArraySchema(schema = @Schema( ))) }),
-        @ApiResponse( responseCode = "400", description = "Плохой запрос ", content = { @Content( mediaType = "application/json", array = @ArraySchema(schema = @Schema( implementation = BaseResponse.class ))) }),
-        @ApiResponse( responseCode = "500", description = "Ошибка сервера", content = { @Content( mediaType = "application/json", array = @ArraySchema(schema = @Schema( implementation =  BaseResponse.class ))) })
+        @ApiResponse( responseCode = "400", description = "Плохой запрос ", content = { @Content( mediaType = "application/json", array = @ArraySchema(schema = @Schema( implementation = BaseResponseError.class ))) }),
+        @ApiResponse( responseCode = "500", description = "Ошибка сервера", content = { @Content( mediaType = "application/json", array = @ArraySchema(schema = @Schema( implementation =  BaseResponseError.class ))) })
     })
 @SecurityRequirement( name = "Bearer Authentication" )
 public interface IKey {

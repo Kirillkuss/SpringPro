@@ -1,4 +1,4 @@
-package com.example.test.response;
+package com.example.test.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -8,7 +8,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class RequestImage {
+public class ImageRequest {
 
     @Schema( name        = "name",
             description = "Наименование файла",

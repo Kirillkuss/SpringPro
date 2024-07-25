@@ -55,11 +55,9 @@ public class User implements Serializable {
     private String password;
 
     @Column( name = "role_user")
-    @Hidden
     private String role;
 
     @Column( name = "email")
-    @Hidden
     private String email;
 
     @Hidden

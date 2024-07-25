@@ -2,6 +2,7 @@ package com.example.test.controllers;
 
 import com.example.test.entity.User;
 import com.example.test.repositories.UserRepository;
+import com.example.test.request.AuthRequest;
 import com.example.test.response.BaseResponse;
 import com.example.test.rest.IAuthentication;
 import com.example.test.services.UserService;
@@ -28,10 +29,10 @@ public class AuthenticationController implements IAuthentication {
     private final UserService userSuervice;
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    public ResponseEntity<BaseResponse> login( @RequestBody User user ) {
-        Optional<User> request = userRepository.findByLogin(user.getUsername());
-        if ( request.isPresent() && userSuervice.checkUserPassword( user.getPassword(), request.get().getSalt(), request.get().getPassword())){
-            String token = generateToken(user);
+    public ResponseEntity<BaseResponse> login( AuthRequest authRequest ) {
+        Optional<User> request = userRepository.findByLogin(authRequest.getLogin());
+        if ( request.isPresent() && userSuervice.checkUserPassword( authRequest.getPassword(), request.get().getSalt(), request.get().getPassword())){
+            String token = generateToken(authRequest);
             HttpHeaders httpHeaders = new HttpHeaders();
             //httpHeaders.set("X-AUTH-TOKEN", token);
             return ResponseEntity.ok()
@@ -45,14 +46,14 @@ public class AuthenticationController implements IAuthentication {
         }               
     }
 
-    private String generateToken(User user) {
+    private String generateToken(AuthRequest authRequest) {
         Instant now = Instant.now();
         long expiry = 6000L; // five minutes
         JwtClaimsSet claims = JwtClaimsSet.builder()
                                           .issuer( "self" )
                                           .issuedAt( now )
                                           .expiresAt( now.plusSeconds( expiry ))
-                                          .subject( user.getUsername() )
+                                          .subject( authRequest.getLogin() )
                                           .build();
         return this.encoder.encode( JwtEncoderParameters.from(claims)).getTokenValue();
     }

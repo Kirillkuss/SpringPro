@@ -3,8 +3,8 @@ package com.example.test.controllers;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.test.entity.Image;
 import com.example.test.repositories.ImageRepository;
+import com.example.test.request.ImageRequest;
 import com.example.test.response.BaseResponse;
-import com.example.test.response.RequestImage;
 import com.example.test.rest.RestImage;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -53,7 +53,7 @@ public class ImageController implements RestImage {
 
     //"D://Project/dev/SpringPro/src/main/resources/image/FALCON.jpg"
     @Override
-    public ResponseEntity<String> addImage(  RequestImage requestImage ) throws IOException {
+    public ResponseEntity<String> addImage(  ImageRequest requestImage ) throws IOException {
         File file = new File( requestImage.getName());
         try(FileInputStream fis = new FileInputStream(file)){
             entityManager.unwrap( Session.class ).doWork(( Connection conn ) ->{
@@ -75,7 +75,7 @@ public class ImageController implements RestImage {
     }
 
     @Override
-    public ResponseEntity<BaseResponse> addImageFromRepoz( RequestImage requestImage ) throws Exception{
+    public ResponseEntity<BaseResponse> addImageFromRepoz( ImageRequest requestImage ) throws Exception{
         try(InputStream put = ImageController.class.getResourceAsStream( "/image/" + requestImage.getName() +".jpg" )){
             if( put == null ) throw new IllegalArgumentException("Файл не найден");    
             imageRepository.save( new Image( null, requestImage.getName(), IOUtils.toByteArray( put )));
