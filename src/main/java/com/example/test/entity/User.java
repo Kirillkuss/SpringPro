@@ -57,7 +57,13 @@ public class User implements Serializable {
     @Column( name = "role_user")
     private String role;
 
+    
     @Column( name = "email")
+    @Schema( name        = "email",
+             description = "email",
+             example     = "jseuertne@mail.com",
+             required    = true )
+    @NotNull
     private String email;
 
     @Hidden
