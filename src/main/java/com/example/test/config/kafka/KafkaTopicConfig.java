@@ -25,16 +25,32 @@ public class KafkaTopicConfig {
     }
 
     @Bean
-    public NewTopic topicOne() {
-        return TopicBuilder.name( "TopicOne")
+    public NewTopic topicSpringProFirst() {
+        return TopicBuilder.name( "topicKlinikFirst" )
                            .partitions( 1 )
                            .replicas( 1 )
                            .build();
     }
 
     @Bean
-    public NewTopic topicTwo(){
-        return TopicBuilder.name( "TopicTwo")
+    public NewTopic topicSpringProSecond(){
+        return TopicBuilder.name( "topicKlinikSecond" )
+                           .partitions( 1 )
+                           .replicas( 1 )
+                           .build();
+    }
+
+    @Bean
+    public NewTopic topicSpringProThird() {
+        return TopicBuilder.name( "topicKlinikThird")
+                           .partitions( 1 )
+                           .replicas( 1 )
+                           .build();
+    }
+
+    @Bean
+    public NewTopic topicSpringProFourth(){
+        return TopicBuilder.name( "topicKlinikFourth")
                            .partitions( 1 )
                            .replicas( 1 )
                            .build();

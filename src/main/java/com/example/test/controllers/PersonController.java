@@ -4,6 +4,7 @@ import com.example.test.entity.Person;
 import com.example.test.response.BaseResponse;
 import com.example.test.rest.IPerson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.test.services.PersonService;
 
@@ -13,23 +14,35 @@ public class PersonController implements IPerson {
     @Autowired
     private PersonService personService;
 
+    @Autowired
+    private KafkaTemplate<String,String> kafkaTemplate;
+
+    public void sendMessage( String message ){
+        kafkaTemplate.send("topicKlinikFourth", message);
+    }
+
     public BaseResponse getAllPerson() {
+        sendMessage("SpringPro > PersonController > getAllPerson");
         return new BaseResponse( 200, "success", personService.findAllTwo());
     }
 
     public BaseResponse findByIdPerson( Long id ) throws Exception{
+        sendMessage("SpringPro > PersonController > findByIdPerson");
         return new BaseResponse( 200, "success", personService.getPersonById( id ));
     }
 
     public BaseResponse savePerson( Person person ) throws Exception{
+        sendMessage("SpringPro > PersonController > savePerson");
         return new BaseResponse( 200, "success", personService.savePerson( person ));
     }
 
     public BaseResponse updatePerson( Person person ) throws Exception{
+        sendMessage("SpringPro > PersonController > updatePerson");
         return new BaseResponse( 200, "success", personService.updatePerson( person));
     }
 
     public BaseResponse deletePerson( Long id ) throws Exception{
+        sendMessage("SpringPro > PersonController > deletePerson");
         personService.deletePerson( id );
         return BaseResponse.success();
     }
