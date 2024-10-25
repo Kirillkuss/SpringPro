@@ -7,7 +7,6 @@ import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.KafkaAdmin;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +25,7 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic topicSpringProFirst() {
-        return TopicBuilder.name( "topicKlinikFirst" )
+        return TopicBuilder.name( "KlinikFirst" )
                            .partitions( 1 )
                            .replicas( 1 )
                            .build();
@@ -34,25 +33,12 @@ public class KafkaTopicConfig {
 
     @Bean
     public NewTopic topicSpringProSecond(){
-        return TopicBuilder.name( "topicKlinikSecond" )
+        return TopicBuilder.name( "KlinikSecond" )
                            .partitions( 1 )
                            .replicas( 1 )
                            .build();
     }
 
-    @Bean
-    public NewTopic topicSpringProThird() {
-        return TopicBuilder.name( "topicKlinikThird")
-                           .partitions( 1 )
-                           .replicas( 1 )
-                           .build();
-    }
 
-    @Bean
-    public NewTopic topicSpringProFourth(){
-        return TopicBuilder.name( "topicKlinikFourth")
-                           .partitions( 1 )
-                           .replicas( 1 )
-                           .build();
-    }
+
 }

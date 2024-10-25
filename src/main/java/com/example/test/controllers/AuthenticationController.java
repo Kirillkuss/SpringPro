@@ -45,7 +45,7 @@ public class AuthenticationController implements IAuthentication {
 
     private String generateToken(UserDetails userDetails) {
         Instant now = Instant.now();
-        long expiry = 600L; // five minutes
+        long expiry = 6000000L; // five minutes
         String scope = userDetails.getAuthorities()
                                   .stream()
                                   .map( GrantedAuthority::getAuthority )
