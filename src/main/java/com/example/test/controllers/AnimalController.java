@@ -1,15 +1,13 @@
 package com.example.test.controllers;
 
-import com.example.test.config.kafka.message.Document;
+import com.example.test.config.kafka.message.SendMessageBroker;
 import com.example.test.entity.Animal;
 import com.example.test.response.BaseResponse;
 import com.example.test.rest.IAnimal;
 import com.example.test.services.AnimalService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
+import java.time.LocalDateTime;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,21 +16,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AnimalController implements IAnimal {
 
-   
     private final AnimalService service;
-    private final KafkaTemplate<String,Animal> kafkaTemplate;
+    private final KafkaTemplate<String,SendMessageBroker> kafkaTemplate;
 
-    private void sendAnimal( Animal animal ){
-        kafkaTemplate.send("klinikSecond", animal);
+    private void sendMessage( SendMessageBroker sendMessageBroker ){
+        kafkaTemplate.send("klinikSecond", sendMessageBroker);
     }
 
     public BaseResponse getAll() throws Exception{
-        service.getAll().stream().forEach( animal -> sendAnimal( animal ));
+        service.getAll().stream().forEach( animal -> sendMessage( new SendMessageBroker<Animal>( LocalDateTime.now(), "SpringPro", "Klinik", animal ) ));
         return new BaseResponse( 200, "success", service.getAll());
     }
 
     public BaseResponse getFindById( Long id )  throws Exception{
-        sendAnimal( service.getById( id ));
+        sendMessage(  new SendMessageBroker<Animal>( LocalDateTime.now(), "SpringPro", "Klinik", service.getById( id )));
         return new BaseResponse( 200, "success", service.getById( id ));  
     }
 
