@@ -1,5 +1,5 @@
 package com.example.test.config.kafka.consumers;
-
+/** 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,4 +37,4 @@ public class BrokerConsumer {
         factory.setConsumerFactory(consumerFactory());
         return factory;
     } 
-}
+}*/

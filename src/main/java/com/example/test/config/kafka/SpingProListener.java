@@ -1,5 +1,5 @@
 package com.example.test.config.kafka;
-
+/** 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.KafkaListener;
 import com.example.test.config.kafka.message.SendMessageBroker;
@@ -15,4 +15,4 @@ public class SpingProListener {
         log.info( sendMessageBroker.toString() );
     }
 
-}
+}*/

@@ -1,5 +1,5 @@
 package com.example.test.config.kafka.serializer;
-
+/** 
 import org.apache.kafka.common.errors.SerializationException;
 import org.apache.kafka.common.serialization.Deserializer;
 import com.example.test.config.kafka.message.SendMessageBroker;
@@ -26,4 +26,4 @@ public class MessageBrokerDeserializer implements Deserializer<SendMessageBroker
         }
     }
     
-}
+}*/
